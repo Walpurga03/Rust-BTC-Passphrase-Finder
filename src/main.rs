@@ -67,7 +67,7 @@ fn main() {
                 info!("Found passphrase: {}", passphrase);
                 println!("Found passphrase: {}", passphrase);
                 println!("If you found my program helpful, I would greatly appreciate a donation via Bitcoin Lightning.");
-                println!("Lihtning adress -> aldobarazutti@getalby.com");
+                println!("Lightning adress -> aldobarazutti@getalby.com");
                 println!("Thank you!");
                 println!("If you want to contact me, find me on Nostr!");
                 println!("npub ->  npub1hht9umpeet75w55uzs9lq6ksayfpcvl9lk64hye75j0yj4husq5ss8xsry");
