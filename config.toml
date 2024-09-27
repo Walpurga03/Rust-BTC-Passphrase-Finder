@@ -11,7 +11,7 @@ derivation_path = "m/44'/0'/0'/0/0"
 expected_address = "15Dq8GudXF25CdfKFLkSjD7i376WgV4KHH"
 
 # 4. path zur wordlist
-wordlist_path = "/home/linux/projects/rust-btc-passphrase-finder/wordlists/wordlist.txt"
+wordlist_path = "wordlists/wordlist.txt"
 
 # 5. Anzahl der Threads für parallele Verarbeitung
 num_threads = 4

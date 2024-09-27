@@ -1,5 +1,5 @@
 [package]
-name = "btc-passphrase-bruteforce"
+name = "rust_btc_passphrase_finder"
 version = "0.1.0"
 edition = "2021"
 

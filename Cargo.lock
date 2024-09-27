@@ -73,22 +73,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "90064b8dee6815a6470d60bad07bbbaee885c0e12d04177138fa3291a01b7bc4"
 
 [[package]]
-name = "btc-passphrase-bruteforce"
-version = "0.1.0"
-dependencies = [
- "bip39",
- "bitcoin",
- "indicatif",
- "log",
- "memmap",
- "rayon",
- "serde",
- "serde_derive",
- "simplelog",
- "toml",
-]
-
-[[package]]
 name = "bumpalo"
 version = "3.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -343,6 +327,22 @@ name = "regex-syntax"
 version = "0.8.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7a66a03ae7c801facd77a29370b4faec201768915ac14a721ba36f20bc9c209b"
+
+[[package]]
+name = "rust_btc_passphrase_finder"
+version = "0.1.0"
+dependencies = [
+ "bip39",
+ "bitcoin",
+ "indicatif",
+ "log",
+ "memmap",
+ "rayon",
+ "serde",
+ "serde_derive",
+ "simplelog",
+ "toml",
+]
 
 [[package]]
 name = "secp256k1"

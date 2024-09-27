@@ -1,1 +1,29 @@
+# Build artifacts
 /target
+
+# Dependencies
+/Cargo.lock
+
+# Logs
+*.log
+
+# IDEs and editors
+/.idea/
+/.vscode/
+/*.swp
+*.swo
+
+# Rust toolchain
+/rustup
+/cargo
+
+# Environment variables
+.env
+
+# Backup files
+*.bak
+*.tmp
+
+# Other
+.DS_Store
+Thumbs.db
