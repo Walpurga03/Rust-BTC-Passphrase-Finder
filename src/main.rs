@@ -5,7 +5,7 @@ use rayon::prelude::*;
 use rayon::ThreadPoolBuilder;
 use memmap::Mmap;
 use std::sync::Arc;
-use log::{info};
+use log::{info, warn};
 use simplelog::{Config as LogConfig, LevelFilter, SimpleLogger};
 use std::fs::File;
 use std::str::FromStr;
@@ -20,36 +20,39 @@ struct Config {
     derivation_path: String,
     expected_address: String,
     wordlist_path: String,
+    num_threads: usize,
 }
 
 fn main() {
-    // Initialisieren Sie das Logging
+    // Initialize logging
     SimpleLogger::init(LevelFilter::Info, LogConfig::default()).expect("Failed to initialize logger");
 
-    // Lesen und deserialisieren Sie die Konfiguration
+    // Read and deserialize the configuration
     let config: Arc<Config> = Arc::new(
         toml::from_str(&std::fs::read_to_string("config.toml").expect("Failed to read config.toml"))
             .expect("Failed to deserialize config.toml")
     );
 
-    // Öffnen und Speicher-mappen Sie die Wortliste
+    // Open and memory-map the wordlist
     let file = File::open(&config.wordlist_path).expect("Failed to open wordlist.txt");
     let mmap = unsafe { Mmap::map(&file).expect("Failed to map the file") };
     let lines: Vec<&str> = mmap.split(|&byte| byte == b'\n')
         .map(|line| std::str::from_utf8(line).expect("Invalid UTF-8"))
         .collect();
 
-    // Erstellen Sie einen Fortschrittsbalken
+    // Create a progress bar
     let pb = ProgressBar::new(lines.len() as u64);
     pb.set_style(ProgressStyle::default_bar()
         .template("{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] {pos}/{len} ({eta})")
         .progress_chars("#>-"));
 
-    // Erstellen Sie einen benutzerdefinierten Thread-Pool
-    let num_threads = 4; // Beispiel: 4 Threads
-    let pool = ThreadPoolBuilder::new().num_threads(num_threads).build().unwrap();
+    // Create a custom thread pool
+    let pool = ThreadPoolBuilder::new().num_threads(config.num_threads).build().unwrap();
 
-    // Führen Sie die parallele Verarbeitung innerhalb des benutzerdefinierten Thread-Pools aus
+    // Flag to check if passphrase is found
+    let passphrase_found = Arc::new(std::sync::atomic::AtomicBool::new(false));
+
+    // Perform parallel processing within the custom thread pool
     pool.install(|| {
         lines.par_iter().for_each(|&passphrase| {
             let mnemonic = Mnemonic::parse_in(Language::English, &config.seed_phrase).expect("Failed to create mnemonic");
@@ -62,6 +65,13 @@ fn main() {
 
             if address.to_string() == config.expected_address {
                 info!("Found passphrase: {}", passphrase);
+                println!("Found passphrase: {}", passphrase);
+                println!("If you found my program helpful, I would greatly appreciate a donation via Bitcoin Lightning.");
+                println!("Lihtning adress -> aldobarazutti@getalby.com");
+                println!("Thank you!");
+                println!("If you want to contact me, find me on Nostr!");
+                println!("npub ->  npub1hht9umpeet75w55uzs9lq6ksayfpcvl9lk64hye75j0yj4husq5ss8xsry");
+                passphrase_found.store(true, std::sync::atomic::Ordering::SeqCst);
                 std::process::exit(0);
             }
 
@@ -70,4 +80,10 @@ fn main() {
     });
 
     pb.finish_with_message("Done");
+
+    // Check if passphrase was found
+    if !passphrase_found.load(std::sync::atomic::Ordering::SeqCst) {
+        warn!("Passphrase not found.");
+        println!("Passphrase not found.");
+    }
 }
