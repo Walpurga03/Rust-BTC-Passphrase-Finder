@@ -44,9 +44,9 @@ This program is a Bitcoin passphrase finder that iterates through a list of poss
 
 ## Execution
 To run the program, use the following command:
-```
-- cargo run --release 
-```
+   ```
+   cargo run --release 
+   ```
 The program will iterate through the wordlist and search for the matching passphrase. The progress will be displayed using a progress bar. If the matching passphrase is found, it will be logged, and the program will exit.
 
 ## Notes
@@ -61,34 +61,34 @@ The program will iterate through the wordlist and search for the matching passph
 
 ### Steps on the PC with Internet Connection
 1. Clone the GitHub repository to the USB stick:
-```
-- git clone https://github.com/Walpurga03/Rust-BTC-Passphrase-Finder.git
-- cd /Rust-BTC-Passphrase-Finder
-```
+      ```
+   git clone https://github.com/Walpurga03/Rust-BTC-Passphrase-Finder.git
+   cd /Rust-BTC-Passphrase-Finder
+   ```
 2. Install Rustup and Cargo (if not already installed):
-```
-- curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-- source $HOME/.cargo/env
-```
+   ```
+   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+   source $HOME/.cargo/env
+   ```
 2. Build the project and download all dependencies:
-```
+   ```
    cargo build --release
-```
+   ```
 3. Copy the Rust toolchain to the USB stick:
-```
+   ```
    cp -r $HOME/.rustup /path/to/usb-2/Rust-BTC-Passphrase-Finder/rustup
    cp -r $HOME/.cargo /path/to/usb-2/Rust-BTC-Passphrase-Finder/cargo
-```
+   ```
 ### Steps on the PC without Internet Connection
 1. Insert the USB stick and navigate to the repository directory:
-``` 
+   ``` 
    cd /path/to/usb-2/Rust-BTC-Passphrase-Finder
-```
+   ```
 2. Load the environment variables:
-```
+   ```
    source setup_env.sh
-```
+   ```
 3. Run the program:
-```
+   ```
    ./target/release/rust_btc_passphrase_finder
-```
+   ```
