@@ -91,5 +91,3 @@ The program will iterate through the wordlist and search for the matching passph
 ## Notes
 - Ensure that the wordlist is in UTF-8 format.
 - Parallel processing can heavily utilize the CPU. Adjust the number of threads as needed.
-
-Lassen Sie mich wissen, ob diese Anpassungen korrekt sind oder ob weitere Änderungen notwendig sind.
