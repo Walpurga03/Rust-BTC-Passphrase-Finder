@@ -66,6 +66,8 @@ Das Programm unterstützt die folgenden vier Bitcoin-Adressformate:
 2. **Umgebungsvariablen laden**:
    ```
    source setup_env.sh
+   ls -l ./target/release/rust_btc_passphrase_finder
+   chmod +x ./target/release/rust_btc_passphrase_finder
    ```
 3. **Programm ausführen**:
    ```
