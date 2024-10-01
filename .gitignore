@@ -1,29 +1,20 @@
-# Build artifacts
-/target
+# Ignore the target directory
+/target/
 
-# Dependencies
+# Ignore the Cargo.lock file for libraries
 /Cargo.lock
 
-# Logs
-*.log
+# Other common ignores
+**/*.rs.bk
+**/*.rs.swp
+**/*.rs.swo
+**/*.rs.swn
 
-# IDEs and editors
+# Ignore IDE specific files
 /.idea/
 /.vscode/
-/*.swp
-*.swo
+/*.iml
 
-# Rust toolchain
-/rustup
-/cargo
-
-# Environment variables
-.env
-
-# Backup files
-*.bak
-*.tmp
-
-# Other
+# Ignore OS generated files
 .DS_Store
-Thumbs.db
+Thumbs.db/Cargo.lock
