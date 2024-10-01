@@ -1,19 +1,13 @@
 # Konfigurationsdatei für das Bitcoin Passphrase Brute-Force Tool
-# Die eingabe gilt als Testfall für das Tool
 
 # 1. BIP39 Mnemonic (Seed-Phrase/test-> frog estate inquiry erupt replace hole trumpet obvious else fiction throw raccoon)
-seed_phrase = "frog estate inquiry erupt replace hole trumpet obvious else fiction throw raccoon"
+seed_phrase = "update decline dentist awake ring sunset appear melt visa fancy quote paddle"
 
-# 2. BIP32 Derivation Path (m/44'/0'/0'/0/0)
-derivation_path = "m/44'/0'/0'/0/0"
+# 2. Zieladresse (die das Tool finden soll/test-> 15Dq8GudXF25CdfKFLkSjD7i376WgV4KHH)
+expected_address = "bc1qwy52fm567ws20h9msv96rmln2gcatjcs9f5f4txmwmfrm6alz0kszy90lc"
 
-# 3. Zieladresse (die das Tool finden soll/test-> 15Dq8GudXF25CdfKFLkSjD7i376WgV4KHH)
-expected_address = "15Dq8GudXF25CdfKFLkSjD7i376WgV4KHH"
-
-# 4. path zur wordlist
+# 3. Pfad zur Wortliste (für den test ind der Wortlist -> bitcoin123)
 wordlist_path = "wordlists/wordlist.txt"
 
-# 5. Anzahl der Threads für parallele Verarbeitung
-num_threads = 4
-
-# 6. BIP39 Passphrase (die Passphrase, die durch Brute-Force in diesem test gesucht wird -> Bitcoin123)
+# 4. Anzahl der Threads für parallele Verarbeitung
+num_threads = 8
