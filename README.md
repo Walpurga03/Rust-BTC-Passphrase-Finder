@@ -50,6 +50,7 @@ Das Programm unterstützt die folgenden vier Bitcoin-Adressformate:
    ```
 3. **Projekt bauen und alle Abhängigkeiten herunterladen**:
    ```
+   cd Rust-BTC-Passphrase-Finder
    cargo build --release
    ```
 4. **Rust-Toolchain auf den USB-Stick kopieren**:
