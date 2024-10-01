@@ -75,16 +75,6 @@ Das Programm unterstützt die folgenden vier Bitcoin-Adressformate:
    ./target/release/rust_btc_passphrase_finder
    ```
 
-## Ausführung
-Um das Programm auszuführen, verwenden Sie den folgenden Befehl:
-   ```
-   cargo run --release 
-   ```
-Für die Offline-Nutzung führen Sie das Programm mit:
-   ```
-   ./target/release/rust_btc_passphrase_finder
-   ```
-
 ## Hinweise
 - Stellen Sie sicher, dass die Wortliste im UTF-8-Format vorliegt.
 - Parallele Verarbeitung kann die CPU stark auslasten. Passen Sie die Anzahl der Threads nach Bedarf an.
