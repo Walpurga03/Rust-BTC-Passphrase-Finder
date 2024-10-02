@@ -12,15 +12,7 @@ use bitcoin::util::bip32::{ExtendedPrivKey, DerivationPath};
 use bitcoin::network::constants::Network;
 use bitcoin::util::address::Address;
 use bitcoin::Script;
-use serde::Deserialize;
-
-#[derive(Debug, Deserialize, Clone)]
-pub struct Config {
-    seed_phrase: String,
-    expected_address: String,
-    wordlist_path: String,
-    num_threads: usize,
-}
+use crate::config::Config;
 
 fn get_address_format(address: &str) -> &str {
     if address.starts_with("1") {

@@ -28,6 +28,7 @@ pub fn generate_address() {
     let seed = mnemonic.to_seed(&passphrase);
     let secp = Secp256k1::new();
     let root_key = ExtendedPrivKey::new_master(Network::Bitcoin, &seed).expect("Failed to create root key");
+    println!("Generated ExtendedPrivKey: {}", root_key);
 
     // Legacy-Adresse (P2PKH)
     let derivation_path_legacy = DerivationPath::from_str("m/44'/0'/0'/0/0").expect("Failed to create derivation path");
@@ -48,9 +49,9 @@ pub fn generate_address() {
     println!("Generated P2SH address: {}", address_p2sh);
 
     // Pay-to-Witness-Script-Hash (P2WSH)
-let derivation_path_p2wsh = DerivationPath::from_str("m/48'/0'/0'/2/0").expect("Failed to create derivation path");
-let derived_key_p2wsh = root_key.derive_priv(&secp, &derivation_path_p2wsh).expect("Failed to derive key");
-let script = Script::new_v0_wpkh(&derived_key_p2wsh.private_key.public_key(&secp).wpubkey_hash().expect("Failed to create WPubkeyHash"));
-let address_p2wsh = Address::p2wsh(&script, Network::Bitcoin);
-println!("Generated P2WSH address: {}", address_p2wsh);
+    let derivation_path_p2wsh = DerivationPath::from_str("m/48'/0'/0'/2/0").expect("Failed to create derivation path");
+    let derived_key_p2wsh = root_key.derive_priv(&secp, &derivation_path_p2wsh).expect("Failed to derive key");
+    let script = Script::new_v0_wpkh(&derived_key_p2wsh.private_key.public_key(&secp).wpubkey_hash().expect("Failed to create WPubkeyHash"));
+    let address_p2wsh = Address::p2wsh(&script, Network::Bitcoin);
+    println!("Generated P2WSH address: {}", address_p2wsh);
 }

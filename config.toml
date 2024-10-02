@@ -1,10 +1,10 @@
 # Konfigurationsdatei für das Bitcoin Passphrase Brute-Force Tool
 
 # 1. BIP39 Mnemonic (Seed-Phrase/test-> frog estate inquiry erupt replace hole trumpet obvious else fiction throw raccoon)
-seed_phrase = "update decline dentist awake ring sunset appear melt visa fancy quote paddle"
+seed_phrase = "sunny concert theme another ketchup genuine predict library humor family pigeon laugh"
 
 # 2. Zieladresse (die das Tool finden soll/test-> 15Dq8GudXF25CdfKFLkSjD7i376WgV4KHH)
-expected_address = "bc1qwy52fm567ws20h9msv96rmln2gcatjcs9f5f4txmwmfrm6alz0kszy90lc"
+expected_address = "bc1p2xj55k85lf38nngww9qleqm4dngp4hvq5qs4txj6wchcz9andwssqxn4fv"
 
 # 3. Pfad zur Wortliste (für den test ind der Wortlist -> bitcoin123)
 wordlist_path = "wordlists/wordlist.txt"
