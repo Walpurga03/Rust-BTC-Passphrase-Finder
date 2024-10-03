@@ -1,6 +1,8 @@
 ## Übersicht
 Dieses Programm ist ein Bitcoin-Passphrase-Finder, der eine Liste möglicher Passphrasen durchläuft, um diejenige zu finden, die zu einer bestimmten Bitcoin-Adresse passt. Es verwendet parallele Verarbeitung, um die Passphrasen effizient zu überprüfen.
 
+
+
 ## Funktionsweise
 1. **Konfiguration**: Das Programm liest eine Konfigurationsdatei ([`config.toml`](command:_github.copilot.openRelativePath?%5B%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2Fhome%2Flinux%2Fprojects%2Frust-btc-passphrase-finder%2Fconfig.toml%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%2200aeeb26-5c33-4a0d-a0da-e705caef91db%22%5D "/home/linux/projects/rust-btc-passphrase-finder/config.toml")), die die Seed-Phrase, die erwartete Bitcoin-Adresse, den Pfad zur Wortliste und die Anzahl der Threads für die parallele Verarbeitung enthält.
 2. **Lesen der Wortliste**: Die Wortliste wird geöffnet und speicherabbildet. Jede Zeile der Datei wird in einen Vektor von Zeichenketten umgewandelt.
@@ -9,11 +11,25 @@ Dieses Programm ist ein Bitcoin-Passphrase-Finder, der eine Liste möglicher Pas
 5. **Überprüfung**: Wenn die generierte Adresse mit der erwarteten Adresse übereinstimmt, wird die Passphrase protokolliert und das Programm beendet. Der Fortschrittsbalken wird bei jeder Iteration aktualisiert und am Ende mit einer Nachricht abgeschlossen.
 
 ## Unterstützte Adressformate
-Das Programm unterstützt die folgenden vier Bitcoin-Adressformate:
+Das Programm unterstützt die folgenden fünf Bitcoin-Adressformate:
 1. **Legacy (P2PKH)**: Adressen, die mit `1` beginnen.
 2. **Pay-to-Script-Hash (P2SH)**: Adressen, die mit `3` beginnen.
 3. **Native SegWit (P2WPKH)**: Adressen, die mit `bc1q` beginnen und 42 Zeichen lang sind.
 4. **Pay-to-Witness-Script-Hash (P2WSH)**: Adressen, die mit `bc1q` beginnen und länger als 42 Zeichen sind.
+5. **Taproot (P2TR)**: Adressen, die mit `bc1p` beginnen.
+
+## Konfigurationsoptionen
+Die Konfigurationsdatei [`config.toml`](command:_github.copilot.openRelativePath?%5B%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2Fhome%2Flinux%2Fprojects%2Frust-btc-passphrase-finder%2Fconfig.toml%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%2200aeeb26-5c33-4a0d-a0da-e705caef91db%22%5D "/home/linux/projects/rust-btc-passphrase-finder/config.toml")) enthält die folgenden Optionen:
+- `seed_phrase`: Die Seed-Phrase, die zur Generierung der Passphrase verwendet wird.
+- `expected_address`: Die erwartete Bitcoin-Adresse, die mit der generierten Passphrase übereinstimmen soll.
+- `wordlist_path`: Der Pfad zur Datei mit der Wortliste.
+- `num_threads`: Die Anzahl der Threads, die für die parallele Verarbeitung verwendet werden sollen.
+- `passphrase`: Das Template für die Passphrase mit Platzhaltern.
+- `uppercase`: Zeichen, die für den Platzhalter `uppercase` verwendet werden sollen.
+- `lowercase`: Zeichen, die für den Platzhalter `lowercase` verwendet werden sollen.
+- `digits`: Zeichen, die für den Platzhalter `digits` verwendet werden sollen.
+- `special`: Zeichen, die für den Platzhalter `special` verwendet werden sollen.
+- `address_paths_to_search`: Die Anzahl der zu durchsuchenden Adresspfade (1, 2 oder 3).
 
 ## Voraussetzungen
 - Linux
@@ -75,6 +91,18 @@ Das Programm unterstützt die folgenden vier Bitcoin-Adressformate:
    ./target/release/rust_btc_passphrase_finder
    ```
 
+
 ## Hinweise
 - Stellen Sie sicher, dass die Wortliste im UTF-8-Format vorliegt.
 - Parallele Verarbeitung kann die CPU stark auslasten. Passen Sie die Anzahl der Threads nach Bedarf an.
+
+## Testen des Programms
+Um das Programm zu testen, können Sie für jeden der fünf Adresstypen (Legacy, P2SH, SegWit, P2WSH, Taproot) drei Adressen mit zufälligen Seed-Phrasen und Passphrasen generieren. Diese Adressen und Passphrasen können Sie dann in die Wortliste und die Konfigurationsdatei eintragen, um das Programm zu testen.
+
+## Passphrase-Generator
+Das Programm enthält auch einen Passphrase-Generator, der eine Wortliste mit vorhandenen Buchstaben sowie Groß- und Kleinbuchstaben, Zahlen und Sonderzeichen generieren kann. Diese Funktion kann über das Menü ausgewählt werden.
+
+## Menüoptionen
+1. Generate Addresses: Generiert Bitcoin-Adressen basierend auf der Seed-Phrase und den Ableitungspfaden.
+2. Find Passphrase: Durchsucht die Wortliste nach der Passphrase, die zur erwarteten Bitcoin-Adresse passt.
+3. Generate Passphrases: Generiert eine Wortliste mit Passphrasen basierend auf den angegebenen Zeichen und Platzhaltern.

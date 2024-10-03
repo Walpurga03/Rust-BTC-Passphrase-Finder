@@ -15,9 +15,9 @@ use memmap::Mmap;
 use crate::config::Config;
 use std::io::{self, ErrorKind};
 
-fn derive_taproot_key(master_key: &ExtendedPrivKey) -> Result<XOnlyPublicKey, bitcoin_v028::util::bip32::Error> {
+fn derive_taproot_key(master_key: &ExtendedPrivKey, index: u32) -> Result<XOnlyPublicKey, bitcoin_v028::util::bip32::Error> {
     let secp = Secp256k1::new();
-    let path: DerivationPath = "m/86'/0'/0'/0/0".parse()?;
+    let path: DerivationPath = format!("m/86'/0'/0'/0/{}", index).parse()?;
     let derived_key = master_key.derive_priv(&secp, &path)?;
     let public_key = PublicKey::from_secret_key(&secp, &derived_key.private_key);
     Ok(XOnlyPublicKey::from(public_key))
@@ -51,27 +51,29 @@ pub fn find_taproot_passphrase(config: &Arc<Config>) -> Result<(), Box<dyn std::
             let secp = Secp256k1::new();
             let root_key = ExtendedPrivKey::new_master(Network::Bitcoin, &seed).expect("Failed to create root key");
 
-            let xonly_pubkey = derive_taproot_key(&root_key).expect("Failed to derive taproot key");
-            let taproot_output_key = TaprootBuilder::new()
-                .finalize(&secp, xonly_pubkey)
-                .expect("Failed to finalize taproot builder");
-            let taproot_address = Address::p2tr_tweaked(taproot_output_key.output_key(), Network::Bitcoin);
+            for i in 0..config.address_paths_to_search {
+                let xonly_pubkey = derive_taproot_key(&root_key, i as u32).expect("Failed to derive taproot key");
+                let taproot_output_key = TaprootBuilder::new()
+                    .finalize(&secp, xonly_pubkey)
+                    .expect("Failed to finalize taproot builder");
+                let taproot_address = Address::p2tr_tweaked(taproot_output_key.output_key(), Network::Bitcoin);
 
-            if taproot_address.to_string() == config.expected_address {
-                println!("\n===============================");
-                println!("🎉 HURRA! Passphrase found! 🎉");
-                println!("===============================");
-                println!(" Passphrase: {}", passphrase);
-                println!("📬 Address format: taproot");
-                println!("===============================");
-                println!("✨ If you found my program helpful, I would greatly appreciate a donation via Bitcoin Lightning!");
-                println!("⚡ Lightning address: aldobarazutti@getalby.com");
-                println!("🙏 Thank you very much!");
-                println!("📬 If you want to contact me, you can find me on Nostr!");
-                println!("🔗 npub: npub1hht9umpeet75w55uzs9lq6ksayfpcvl9lk64hye75j0yj4husq5ss8xsry");
-                println!("===============================");
-                passphrase_found.store(true, std::sync::atomic::Ordering::SeqCst);
-                std::process::exit(0);
+                if taproot_address.to_string() == config.expected_address {
+                    println!("\n===============================");
+                    println!("🎉 HURRA! Passphrase found! 🎉");
+                    println!("===============================");
+                    println!(" Passphrase: {}", passphrase);
+                    println!("📬 Address format: taproot");
+                    println!("===============================");
+                    println!("✨ If you found my program helpful, I would greatly appreciate a donation via Bitcoin Lightning!");
+                    println!("⚡ Lightning address: aldobarazutti@getalby.com");
+                    println!("🙏 Thank you very much!");
+                    println!("📬 If you want to contact me, you can find me on Nostr!");
+                    println!("🔗 npub: npub1hht9umpeet75w55uzs9lq6ksayfpcvl9lk64hye75j0yj4husq5ss8xsry");
+                    println!("===============================");
+                    passphrase_found.store(true, std::sync::atomic::Ordering::SeqCst);
+                    std::process::exit(0);
+                }
             }
 
             pb.inc(1);

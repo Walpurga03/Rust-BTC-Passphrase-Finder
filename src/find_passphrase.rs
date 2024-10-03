@@ -61,44 +61,46 @@ pub fn find_passphrase(config: &Arc<Config>) -> Result<(), Box<dyn std::error::E
             let secp = Secp256k1::new();
             let root_key = ExtendedPrivKey::new_master(Network::Bitcoin, &seed).expect("Failed to create root key");
 
-            // Define the derivation path based on the address format
-            let derivation_path = match address_format {
-                "legacy" => DerivationPath::from_str("m/44'/0'/0'/0/0").expect("Failed to create derivation path"),
-                "p2sh" => DerivationPath::from_str("m/49'/0'/0'/0/0").expect("Failed to create derivation path"),
-                "segwit" => DerivationPath::from_str("m/84'/0'/0'/0/0").expect("Failed to create derivation path"),
-                "p2wsh" => DerivationPath::from_str("m/48'/0'/0'/2/0").expect("Failed to create derivation path"),
+            // Define the derivation paths based on the address format and the number of paths to search
+            let derivation_paths: Vec<DerivationPath> = match address_format {
+                "legacy" => (0..config.address_paths_to_search).map(|i| DerivationPath::from_str(&format!("m/44'/0'/0'/0/{}", i)).expect("Failed to create derivation path")).collect(),
+                "p2sh" => (0..config.address_paths_to_search).map(|i| DerivationPath::from_str(&format!("m/49'/0'/0'/0/{}", i)).expect("Failed to create derivation path")).collect(),
+                "segwit" => (0..config.address_paths_to_search).map(|i| DerivationPath::from_str(&format!("m/84'/0'/0'/0/{}", i)).expect("Failed to create derivation path")).collect(),
+                "p2wsh" => (0..config.address_paths_to_search).map(|i| DerivationPath::from_str(&format!("m/48'/0'/0'/2/{}", i)).expect("Failed to create derivation path")).collect(),
                 _ => panic!("Unsupported address format"),
             };
 
-            let derived_key = root_key.derive_priv(&secp, &derivation_path).expect("Failed to derive key");
+            for derivation_path in derivation_paths {
+                let derived_key = root_key.derive_priv(&secp, &derivation_path).expect("Failed to derive key");
 
-            let address = match address_format {
-                "legacy" => Address::p2pkh(&derived_key.private_key.public_key(&secp), Network::Bitcoin),
-                "p2sh" => Address::p2shwpkh(&derived_key.private_key.public_key(&secp), Network::Bitcoin).expect("Failed to create P2SH address"),
-                "segwit" => Address::p2wpkh(&derived_key.private_key.public_key(&secp), Network::Bitcoin).expect("Failed to create SegWit address"),
-                "p2wsh" => {
-                    let script = Script::new_v0_wpkh(&derived_key.private_key.public_key(&secp).wpubkey_hash().expect("Failed to create WPubkeyHash"));
-                    let address_p2wsh = Address::p2wsh(&script, Network::Bitcoin);
-                    address_p2wsh
-                },
-                _ => panic!("Unsupported address format"),
-            };
+                let address = match address_format {
+                    "legacy" => Address::p2pkh(&derived_key.private_key.public_key(&secp), Network::Bitcoin),
+                    "p2sh" => Address::p2shwpkh(&derived_key.private_key.public_key(&secp), Network::Bitcoin).expect("Failed to create P2SH address"),
+                    "segwit" => Address::p2wpkh(&derived_key.private_key.public_key(&secp), Network::Bitcoin).expect("Failed to create SegWit address"),
+                    "p2wsh" => {
+                        let script = Script::new_v0_wpkh(&derived_key.private_key.public_key(&secp).wpubkey_hash().expect("Failed to create WPubkeyHash"));
+                        let address_p2wsh = Address::p2wsh(&script, Network::Bitcoin);
+                        address_p2wsh
+                    },
+                    _ => panic!("Unsupported address format"),
+                };
 
-            if address.to_string() == config.expected_address {
-                println!("\n===============================");
-                println!("🎉 HURRA! Passphrase found! 🎉");
-                println!("===============================");
-                println!("🔑 Passphrase: {}", passphrase);
-                println!("📬 Address format: {}", address_format);
-                println!("===============================");
-                println!("✨ If you found my program helpful, I would greatly appreciate a donation via Bitcoin Lightning!");
-                println!("⚡ Lightning address: aldobarazutti@getalby.com");
-                println!("🙏 Thank you very much!");
-                println!("📬 If you want to contact me, you can find me on Nostr!");
-                println!("🔗 npub: npub1hht9umpeet75w55uzs9lq6ksayfpcvl9lk64hye75j0yj4husq5ss8xsry");
-                println!("===============================");
-                passphrase_found.store(true, std::sync::atomic::Ordering::SeqCst);
-                std::process::exit(0);
+                if address.to_string() == config.expected_address {
+                    println!("\n===============================");
+                    println!("🎉 HURRA! Passphrase found! 🎉");
+                    println!("===============================");
+                    println!("🔑 Passphrase: {}", passphrase);
+                    println!("📬 Address format: {}", address_format);
+                    println!("===============================");
+                    println!("✨ If you found my program helpful, I would greatly appreciate a donation via Bitcoin Lightning!");
+                    println!("⚡ Lightning address: aldobarazutti@getalby.com");
+                    println!("🙏 Thank you very much!");
+                    println!("📬 If you want to contact me, you can find me on Nostr!");
+                    println!("🔗 npub: npub1hht9umpeet75w55uzs9lq6ksayfpcvl9lk64hye75j0yj4husq5ss8xsry");
+                    println!("===============================");
+                    passphrase_found.store(true, std::sync::atomic::Ordering::SeqCst);
+                    std::process::exit(0);
+                }
             }
 
             pb.inc(1);

@@ -2,11 +2,13 @@ mod generate_address;
 mod find_passphrase;
 mod find_taproot_passphrase;
 mod config;
+mod passphrase_generater; // Importieren des neuen Moduls
 
 use find_passphrase::find_passphrase;
 use generate_address::generate_all_addresses;
 use find_taproot_passphrase::find_taproot_passphrase;
 use config::Config;
+use passphrase_generater::generate_and_save_passphrases; // Importieren der neuen Funktion
 use dialoguer::{theme::ColorfulTheme, Select};
 use std::sync::Arc;
 use simplelog::{Config as LogConfig, LevelFilter, SimpleLogger};
@@ -39,8 +41,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Create a menu
     let selections = vec![
-        "Generate All Addresses", 
-        "Find Passphrase"
+        "Generate Addresses", 
+        "Find Passphrase",
+        "Generate Passphrases" // Neue Option hinzufügen
     ];
     let selection = Select::with_theme(&ColorfulTheme::default())
         .with_prompt("Choose an option")
@@ -59,6 +62,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 find_passphrase(&config)?;
             }
         },
+        2 => generate_and_save_passphrases(&config)?, // Neue Funktion aufrufen
         _ => unreachable!(),
     }
 

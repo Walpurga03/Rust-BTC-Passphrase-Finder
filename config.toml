@@ -1,13 +1,31 @@
-# Konfigurationsdatei für das Bitcoin Passphrase Brute-Force Tool
+# Configuration file for the Bitcoin Passphrase Brute-Force Tool
 
-# 1. BIP39 Mnemonic (Seed-Phrase/test-> frog estate inquiry erupt replace hole trumpet obvious else fiction throw raccoon)
-seed_phrase = "sadness saddle cool safe grass obvious ankle approve chicken harvest ranch edit"
+# Seed phrase used for generating the passphrase
+seed_phrase = "where buddy physical crawl orphan cricket rain mandate write auto garment celery"
 
-# 2. Zieladresse (die das Tool finden soll/test-> 15Dq8GudXF25CdfKFLkSjD7i376WgV4KHH)
-expected_address = "bc1pesc5djvglk9456x5wx6yjfkhsxgvyvlhe87zdqr9ynewejehsgxsj29nvd"
+# Expected Bitcoin address that should match the generated passphrase
+expected_address = "bc1ptfmjpnx0x83rtner7844szeyxt5ed63fxx6par28y8snqsugucps8dc3ul"
 
-# 3. Pfad zur Wortliste (für den test ind der Wortlist -> bitcoin123)
+# Path to the file where the generated passphrases will be saved
 wordlist_path = "wordlists/wordlist.txt"
 
-# 4. Anzahl der Threads für parallele Verarbeitung
-num_threads = 8
+# Number of threads to be used for generation
+num_threads = 4
+
+# Template for the passphrase with placeholders
+passphrase = "Alex'uppercase'1'lowercase''digits'2'special'"
+
+# Characters to be used for the 'uppercase' placeholder
+uppercase = "ABCD"  # Uppercase letters ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+# Characters to be used for the 'lowercase' placeholder
+lowercase = "xyz"  # Lowercase letters abcdefghijklmnopqrstuvwxyz
+
+# Characters to be used for the 'digits' placeholder
+digits = "789"  # Digits 0123456789
+
+# Characters to be used for the 'special' placeholder
+special = "!§$%&=?"  # Special characters +*#'<>^°!§$%&=?
+
+# Number of address paths to search (1, 2, or 3)
+address_paths_to_search = 3
