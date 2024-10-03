@@ -11,6 +11,22 @@ use dialoguer::{theme::ColorfulTheme, Select};
 use std::sync::Arc;
 use simplelog::{Config as LogConfig, LevelFilter, SimpleLogger};
 
+fn get_address_format(address: &str) -> &str {
+    if address.starts_with("1") {
+        "legacy"
+    } else if address.starts_with("3") {
+        "p2sh"
+    } else if address.starts_with("bc1q") && address.len() == 42 {
+        "segwit"
+    } else if address.starts_with("bc1q") && address.len() > 42 {
+        "p2wsh"
+    } else if address.starts_with("bc1p") {
+        "taproot"
+    } else {
+        panic!("Unsupported address format");
+    }
+}
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Initialize logging
     SimpleLogger::init(LevelFilter::Info, LogConfig::default())?;
@@ -24,8 +40,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create a menu
     let selections = vec![
         "Generate All Addresses", 
-        "Find Passphrase", 
-        "Find Taproot Passphrase"
+        "Find Passphrase"
     ];
     let selection = Select::with_theme(&ColorfulTheme::default())
         .with_prompt("Choose an option")
@@ -36,8 +51,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Match the user's selection and call the corresponding function
     match selection {
         0 => generate_all_addresses()?,
-        1 => find_passphrase(&config),
-        2 => find_taproot_passphrase(&config),
+        1 => {
+            let address_format = get_address_format(&config.expected_address);
+            if address_format == "taproot" {
+                find_taproot_passphrase(&config);
+            } else {
+                find_passphrase(&config);
+            }
+        },
         _ => unreachable!(),
     }
 
