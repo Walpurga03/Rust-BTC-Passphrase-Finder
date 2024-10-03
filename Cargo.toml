@@ -5,8 +5,8 @@ edition = "2021"
 
 [dependencies]
 bitcoin_v028 = { package = "bitcoin", version = "0.28", features = ["secp-recovery"] }
+bitcoin_v027 = { package = "bitcoin", version = "0.27.0" }
 secp256k1 = { version = "0.22", features = ["bitcoin_hashes"] }
-bitcoin = "0.27.0"
 bip39 = "2.0.0"
 rand = "0.8.4"
 toml = "0.5"

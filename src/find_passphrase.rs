@@ -1,4 +1,4 @@
-use bitcoin::secp256k1::Secp256k1;
+use bitcoin_v027::secp256k1::Secp256k1;
 use bip39::{Mnemonic, Language};
 use indicatif::{ProgressBar, ProgressStyle};
 use rayon::prelude::*;
@@ -8,10 +8,10 @@ use std::sync::Arc;
 use log::{warn};
 use std::fs::File;
 use std::str::FromStr;
-use bitcoin::util::bip32::{ExtendedPrivKey, DerivationPath};
-use bitcoin::network::constants::Network;
-use bitcoin::util::address::Address;
-use bitcoin::Script;
+use bitcoin_v027::util::bip32::{ExtendedPrivKey, DerivationPath};
+use bitcoin_v027::network::constants::Network;
+use bitcoin_v027::util::address::Address;
+use bitcoin_v027::Script;
 use crate::config::Config;
 
 fn get_address_format(address: &str) -> &str {
