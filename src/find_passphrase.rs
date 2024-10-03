@@ -13,6 +13,7 @@ use bitcoin_v027::network::constants::Network;
 use bitcoin_v027::util::address::Address;
 use bitcoin_v027::Script;
 use crate::config::Config;
+use std::io::{self, ErrorKind};
 
 fn get_address_format(address: &str) -> &str {
     if address.starts_with("1") {
@@ -28,13 +29,13 @@ fn get_address_format(address: &str) -> &str {
     }
 }
 
-pub fn find_passphrase(config: &Arc<Config>) {
+pub fn find_passphrase(config: &Arc<Config>) -> Result<(), Box<dyn std::error::Error>> {
     // Open and memory-map the wordlist
-    let file = File::open(&config.wordlist_path).expect("Failed to open wordlist.txt");
-    let mmap = unsafe { Mmap::map(&file).expect("Failed to map the file") };
+    let file = File::open(&config.wordlist_path)?;
+    let mmap = unsafe { Mmap::map(&file)? };
     let lines: Vec<&str> = mmap.split(|&byte| byte == b'\n')
-        .map(|line| std::str::from_utf8(line).expect("Invalid UTF-8"))
-        .collect();
+        .map(|line| std::str::from_utf8(line).map_err(|_| io::Error::new(ErrorKind::InvalidData, "Invalid UTF-8")))
+        .collect::<Result<Vec<&str>, io::Error>>()?;
 
     // Create a progress bar
     let pb = ProgressBar::new(lines.len() as u64);
@@ -43,7 +44,7 @@ pub fn find_passphrase(config: &Arc<Config>) {
         .progress_chars("#>-"));
 
     // Create a custom thread pool
-    let pool = ThreadPoolBuilder::new().num_threads(config.num_threads).build().unwrap();
+    let pool = ThreadPoolBuilder::new().num_threads(config.num_threads).build()?;
 
     // Flag to check if passphrase is found
     let passphrase_found = Arc::new(std::sync::atomic::AtomicBool::new(false));
@@ -85,15 +86,15 @@ pub fn find_passphrase(config: &Arc<Config>) {
 
             if address.to_string() == config.expected_address {
                 println!("\n===============================");
-                println!("🎉 HURRA! Passphrase gefunden! 🎉");
+                println!("🎉 HURRA! Passphrase found! 🎉");
                 println!("===============================");
                 println!("🔑 Passphrase: {}", passphrase);
                 println!("📬 Address format: {}", address_format);
                 println!("===============================");
-                println!("✨ Wenn Sie mein Programm hilfreich fanden, würde ich mich riesig über eine Spende via Bitcoin Lightning freuen!");
-                println!("⚡ Lightning-Adresse: aldobarazutti@getalby.com");
-                println!("🙏 Vielen Dank!");
-                println!("📬 Wenn Sie mich kontaktieren möchten, finden Sie mich auf Nostr!");
+                println!("✨ If you found my program helpful, I would greatly appreciate a donation via Bitcoin Lightning!");
+                println!("⚡ Lightning address: aldobarazutti@getalby.com");
+                println!("🙏 Thank you very much!");
+                println!("📬 If you want to contact me, you can find me on Nostr!");
                 println!("🔗 npub: npub1hht9umpeet75w55uzs9lq6ksayfpcvl9lk64hye75j0yj4husq5ss8xsry");
                 println!("===============================");
                 passphrase_found.store(true, std::sync::atomic::Ordering::SeqCst);
@@ -110,9 +111,11 @@ pub fn find_passphrase(config: &Arc<Config>) {
     if !passphrase_found.load(std::sync::atomic::Ordering::SeqCst) {
         warn!("Passphrase not found.");
         println!("\n===============================");
-        println!("⚠️ Oje! Passphrase nicht gefunden ⚠️");
+        println!("⚠️ Oops! Passphrase not found ⚠️");
         println!("===============================");
         println!("📬 Address format: {}", address_format);
         println!("===============================");
     }
+
+    Ok(())
 }

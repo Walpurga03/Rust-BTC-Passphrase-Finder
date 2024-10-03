@@ -54,9 +54,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         1 => {
             let address_format = get_address_format(&config.expected_address);
             if address_format == "taproot" {
-                find_taproot_passphrase(&config);
+                find_taproot_passphrase(&config)?;
             } else {
-                find_passphrase(&config);
+                find_passphrase(&config)?;
             }
         },
         _ => unreachable!(),

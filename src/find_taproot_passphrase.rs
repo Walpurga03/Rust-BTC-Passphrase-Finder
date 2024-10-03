@@ -13,22 +13,23 @@ use std::fs::File;
 use log::{warn};
 use memmap::Mmap;
 use crate::config::Config;
+use std::io::{self, ErrorKind};
 
-fn derive_taproot_key(master_key: &ExtendedPrivKey) -> XOnlyPublicKey {
+fn derive_taproot_key(master_key: &ExtendedPrivKey) -> Result<XOnlyPublicKey, bitcoin_v028::util::bip32::Error> {
     let secp = Secp256k1::new();
-    let path: DerivationPath = "m/86'/0'/0'/0/0".parse().unwrap();
-    let derived_key = master_key.derive_priv(&secp, &path).unwrap();
+    let path: DerivationPath = "m/86'/0'/0'/0/0".parse()?;
+    let derived_key = master_key.derive_priv(&secp, &path)?;
     let public_key = PublicKey::from_secret_key(&secp, &derived_key.private_key);
-    XOnlyPublicKey::from(public_key)
+    Ok(XOnlyPublicKey::from(public_key))
 }
 
-pub fn find_taproot_passphrase(config: &Arc<Config>) {
+pub fn find_taproot_passphrase(config: &Arc<Config>) -> Result<(), Box<dyn std::error::Error>> {
     // Open and memory-map the wordlist
-    let file = File::open(&config.wordlist_path).expect("Failed to open wordlist.txt");
-    let mmap = unsafe { Mmap::map(&file).expect("Failed to map the file") };
+    let file = File::open(&config.wordlist_path)?;
+    let mmap = unsafe { Mmap::map(&file)? };
     let lines: Vec<&str> = mmap.split(|&byte| byte == b'\n')
-        .map(|line| std::str::from_utf8(line).expect("Invalid UTF-8"))
-        .collect();
+        .map(|line| std::str::from_utf8(line).map_err(|_| io::Error::new(ErrorKind::InvalidData, "Invalid UTF-8")))
+        .collect::<Result<Vec<&str>, io::Error>>()?;
 
     // Create a progress bar
     let pb = ProgressBar::new(lines.len() as u64);
@@ -37,7 +38,7 @@ pub fn find_taproot_passphrase(config: &Arc<Config>) {
         .progress_chars("#>-"));
 
     // Create a custom thread pool
-    let pool = ThreadPoolBuilder::new().num_threads(config.num_threads).build().unwrap();
+    let pool = ThreadPoolBuilder::new().num_threads(config.num_threads).build()?;
 
     // Flag to check if passphrase is found
     let passphrase_found = Arc::new(std::sync::atomic::AtomicBool::new(false));
@@ -50,23 +51,23 @@ pub fn find_taproot_passphrase(config: &Arc<Config>) {
             let secp = Secp256k1::new();
             let root_key = ExtendedPrivKey::new_master(Network::Bitcoin, &seed).expect("Failed to create root key");
 
-            let xonly_pubkey = derive_taproot_key(&root_key);
+            let xonly_pubkey = derive_taproot_key(&root_key).expect("Failed to derive taproot key");
             let taproot_output_key = TaprootBuilder::new()
                 .finalize(&secp, xonly_pubkey)
-                .unwrap();
+                .expect("Failed to finalize taproot builder");
             let taproot_address = Address::p2tr_tweaked(taproot_output_key.output_key(), Network::Bitcoin);
 
             if taproot_address.to_string() == config.expected_address {
                 println!("\n===============================");
-                println!("🎉 HURRA! Passphrase gefunden! 🎉");
+                println!("🎉 HURRA! Passphrase found! 🎉");
                 println!("===============================");
                 println!(" Passphrase: {}", passphrase);
                 println!("📬 Address format: taproot");
                 println!("===============================");
-                println!("✨ Wenn Sie mein Programm hilfreich fanden, würde ich mich riesig über eine Spende via Bitcoin Lightning freuen!");
-                println!("⚡ Lightning-Adresse: aldobarazutti@getalby.com");
-                println!("🙏 Vielen Dank!");
-                println!("📬 Wenn Sie mich kontaktieren möchten, finden Sie mich auf Nostr!");
+                println!("✨ If you found my program helpful, I would greatly appreciate a donation via Bitcoin Lightning!");
+                println!("⚡ Lightning address: aldobarazutti@getalby.com");
+                println!("🙏 Thank you very much!");
+                println!("📬 If you want to contact me, you can find me on Nostr!");
                 println!("🔗 npub: npub1hht9umpeet75w55uzs9lq6ksayfpcvl9lk64hye75j0yj4husq5ss8xsry");
                 println!("===============================");
                 passphrase_found.store(true, std::sync::atomic::Ordering::SeqCst);
@@ -83,9 +84,11 @@ pub fn find_taproot_passphrase(config: &Arc<Config>) {
     if !passphrase_found.load(std::sync::atomic::Ordering::SeqCst) {
         warn!("Passphrase not found.");
         println!("\n===============================");
-        println!("⚠️ Oje! Passphrase nicht gefunden ⚠️");
+        println!("⚠️ Oops! Passphrase not found ⚠️");
         println!("===============================");
         println!("📬 Address format: taproot");
         println!("===============================");
     }
+
+    Ok(())
 }
