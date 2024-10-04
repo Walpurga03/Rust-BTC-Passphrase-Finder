@@ -11,5 +11,5 @@ pub struct Config {
     pub lowercase: String,
     pub digits: String,
     pub special: String,
-    pub address_paths_to_search: usize,  // Add this line
+    pub address_paths_to_search: usize,
 }
