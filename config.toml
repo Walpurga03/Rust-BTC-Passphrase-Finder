@@ -13,7 +13,7 @@ wordlist_path = "wordlists/wordlist.txt"
 num_threads = 4
 
 # Template for the passphrase with placeholders
-passphrase = "Alex'uppercase'1'lowercase''digits'2'special'"
+passphrase = "Satoshi'uppercase'1'lowercase''digits'2'special'"
 
 # Characters to be used for the 'uppercase' placeholder
 uppercase = "ABCD"  # Uppercase letters ABCDEFGHIJKLMNOPQRSTUVWXYZ

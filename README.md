@@ -1,6 +1,10 @@
 ## Übersicht
 Dieses Programm ist ein Bitcoin-Passphrase-Finder, der eine Liste möglicher Passphrasen durchläuft, um diejenige zu finden, die zu einer bestimmten Bitcoin-Adresse passt. Es verwendet parallele Verarbeitung, um die Passphrasen effizient zu überprüfen.
 
+## Problemstellung
+Bitcoin-Adressen werden oft durch eine Kombination aus einer Seed-Phrase und einer Passphrase generiert. Diese Passphrase kann als zusätzliche Sicherheitsschicht dienen, um den Zugriff auf die Bitcoin-Wallet zu schützen. Wenn die Passphrase jedoch verloren geht oder vergessen wird, kann der Zugriff auf die Wallet und die darin enthaltenen Bitcoins unmöglich werden.
+
+Das Problem, das dieses Programm löst, besteht darin, die verlorene oder vergessene Passphrase zu finden, indem es eine Liste möglicher Passphrasen durchläuft und überprüft, ob sie zu einer bestimmten Bitcoin-Adresse passt. Dies ist besonders nützlich für Benutzer, die ihre Passphrase vergessen haben, aber noch die Seed-Phrase und die erwartete Bitcoin-Adresse kennen.
 
 
 ## Funktionsweise
