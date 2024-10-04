@@ -1,10 +1,10 @@
 # Configuration file for the Bitcoin Passphrase Brute-Force Tool
 
 # Seed phrase used for generating the passphrase
-seed_phrase = "model sign help plug liar chapter ethics gold use deny liquid exit"
+seed_phrase = "anger science wool gown ocean eagle sadness action smooth series goose elder"
 
 # Expected Bitcoin address that should match the generated passphrase
-expected_address = "bc1p0zgfnea4yp8snmy4jx20jleemlldkm8xwxuyz3tp9tdd9vm6ym5qyhpt8q"
+expected_address = "bc1pmmkr7j7shetj4gd8vwhdps83xz7ktv7mtdw976tkltqa28nrzt4q8wdmcq"
 
 # Path to the file where the generated passphrases will be saved
 wordlist_path = "wordlists/wordlist.txt"
@@ -13,14 +13,14 @@ wordlist_path = "wordlists/wordlist.txt"
 num_threads = 4
 
 # Template for the passphrase with placeholders
-passphrase = "'spe2''low1'"
+passphrase = "'upp1'QusLt3mzPDPn'dig1'QQ"
 
 # Characters to be used for the placeholders
-upp1 = "ABC"  # Uppercase letters ABCDEFGHIJKLMNOPQRSTUVWXYZ
+upp1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  # Uppercase letters ABCDEFGHIJKLMNOPQRSTUVWXYZ
 upp2 = "DEF"  # Uppercase letters ABCDEFGHIJKLMNOPQRSTUVWXYZ
 low1 = "abc"  # Lowercase letters abcdefghijklmnopqrstuvwxyz
 low2 = "abc"  # Lowercase letters abcdefghijklmnopqrstuvwxyz
-dig1 = "789"  # Digits 0123456789
+dig1 = "0123456789"  # Digits 0123456789
 dig2 = "789"  # Digits 0123456789
 spe1 = "!§$"  # Special characters +*#'<>^°!§$%&=?
 spe2 = "!§$"  # Special characters +*#'<>^°!§$%&=?

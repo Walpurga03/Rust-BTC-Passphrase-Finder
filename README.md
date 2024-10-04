@@ -7,6 +7,10 @@ Bitcoin-Adressen werden oft durch eine Kombination aus einer Seed-Phrase und ein
 Das Problem, das dieses Programm löst, besteht darin, die verlorene oder vergessene Passphrase zu finden, indem es eine Liste möglicher Passphrasen durchläuft und überprüft, ob sie zu einer bestimmten Bitcoin-Adresse passt. Dies ist besonders nützlich für Benutzer, die ihre Passphrase vergessen haben, aber noch die Seed-Phrase und die erwartete Bitcoin-Adresse kennen.
 
 
+## Video-Demonstration
+
+![Video-Demonstration](video/output.gif)
+
 ## Funktionsweise
 1. **Konfiguration**: Das Programm liest eine Konfigurationsdatei ([`config.toml`](command:_github.copilot.openRelativePath?%5B%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2Fhome%2Flinux%2Fprojects%2Frust-btc-passphrase-finder%2Fconfig.toml%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%2200aeeb26-5c33-4a0d-a0da-e705caef91db%22%5D "/home/linux/projects/rust-btc-passphrase-finder/config.toml")), die die Seed-Phrase, die erwartete Bitcoin-Adresse, den Pfad zur Wortliste und die Anzahl der Threads für die parallele Verarbeitung enthält.
 2. **Lesen der Wortliste**: Die Wortliste wird geöffnet und speicherabbildet. Jede Zeile der Datei wird in einen Vektor von Zeichenketten umgewandelt.
