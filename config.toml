@@ -13,19 +13,17 @@ wordlist_path = "wordlists/wordlist.txt"
 num_threads = 4
 
 # Template for the passphrase with placeholders
-passphrase = "'lowercase'e6fBwBs1zZ76zT'uppercase'"
+passphrase = "'spe2''low1'"
 
-# Characters to be used for the 'uppercase' placeholder
-uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  # Uppercase letters ABCDEFGHIJKLMNOPQRSTUVWXYZ
-
-# Characters to be used for the 'lowercase' placeholder
-lowercase = "abcdefghijklmnopqrstuvwxyz"  # Lowercase letters abcdefghijklmnopqrstuvwxyz
-
-# Characters to be used for the 'digits' placeholder
-digits = "789"  # Digits 0123456789
-
-# Characters to be used for the 'special' placeholder
-special = "!§$%&=?"  # Special characters +*#'<>^°!§$%&=?
+# Characters to be used for the placeholders
+upp1 = "ABC"  # Uppercase letters ABCDEFGHIJKLMNOPQRSTUVWXYZ
+upp2 = "DEF"  # Uppercase letters ABCDEFGHIJKLMNOPQRSTUVWXYZ
+low1 = "abc"  # Lowercase letters abcdefghijklmnopqrstuvwxyz
+low2 = "abc"  # Lowercase letters abcdefghijklmnopqrstuvwxyz
+dig1 = "789"  # Digits 0123456789
+dig2 = "789"  # Digits 0123456789
+spe1 = "!§$"  # Special characters +*#'<>^°!§$%&=?
+spe2 = "!§$"  # Special characters +*#'<>^°!§$%&=?
 
 # Number of address paths to search (1, 2, or 3)
 address_paths_to_search = 3
