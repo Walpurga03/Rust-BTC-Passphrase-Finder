@@ -6,10 +6,10 @@
 # WESENTLICHE PARAMETER
 #------------------------------------------------------------------------------
 # Seed-Phrase zur Generierung der Passphrase
-seed_phrase = "pigeon minor involve beef swift math verb cheese soldier wasp exile cluster"
+seed_phrase = "census claim gravity daughter deliver abuse banner join own neither exist ahead"
 
 # Erwartete Bitcoin-Adresse, die zur generierten Passphrase passen sollte
-expected_address = "bc1pf35c0d0h9taja3s8snp74309z8fqwgsdptf4a28yq563kmmzd3tsswpqwz"
+expected_address = "bc1prwx9drhn3wxwwq27ctyuelkyks79s8w6n9a4cye4l5gsltwrx8fqrkgnkd"
 
 # Anzahl der zu durchsuchenden Adresspfade (1, 2 oder 3)
 address_paths_to_search = 1
@@ -18,8 +18,8 @@ address_paths_to_search = 1
 # PASSPHRASEN-GENERIERUNG
 #------------------------------------------------------------------------------
 # Regex-Muster für die Passphrasen-Generierung (siehe docs/REGEX_PATTERNS.md für Details)
-# gesucht passphrase -> ODQSvC4j7UXH1N35
-passphrase = "ODQ[A-Z]vC[0-9]j7UX1N[0-9]{1,3}"
+# gesucht passphrase -> zEZqxuEiLs3C1KsG
+passphrase = "bijNYE5[A-Z][a-z]Lt1Ck2[A-Z]"
 
 # Pfad zur Datei, in der die generierten Passphrasen gespeichert werden
 wordlist_path = "wordlists/wordlist.txt"

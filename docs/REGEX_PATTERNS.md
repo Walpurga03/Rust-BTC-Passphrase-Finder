@@ -6,26 +6,26 @@
 Ein Regex-Muster besteht aus normalen Zeichen und speziellen Symbolen, die Regeln für die Erzeugung von Passphrasen definieren:
 
 #### Zeichenklassen:
-- `[A-Z]` - Erzeugt **einen** Großbuchstaben (A, B, C, ..., Z)
-- `[a-z]` - Erzeugt **einen** Kleinbuchstaben (a, b, c, ..., z)
-- `[0-9]` - Erzeugt **eine** Ziffer (0, 1, 2, ..., 9)
-- `[abc]` - Erzeugt **ein** Zeichen aus dieser Auswahl (a, b oder c)
-- `[!@#$%]` - Erzeugt **ein** Sonderzeichen aus dieser Auswahl (!, @, #, $, oder %)
+- [A-Z] - Erzeugt **einen** Großbuchstaben (A, B, C, ..., Z)
+- [a-z] - Erzeugt **einen** Kleinbuchstaben (a, b, c, ..., z)
+- [0-9] - Erzeugt **eine** Ziffer (0, 1, 2, ..., 9)
+- [abc] - Erzeugt **ein** Zeichen aus dieser Auswahl (a, b oder c)
+- [!@#$%] - Erzeugt **ein** Sonderzeichen aus dieser Auswahl (!, @, #, $, oder %)
 
 #### Wiederholungsangaben:
-- `{n}` - Genau n-mal wiederholen
-- `{n,m}` - Zwischen n und m mal wiederholen
-- `{n;}` - Mindestens n-mal wiederholen
+- {n} - Genau n-mal wiederholen
+- {n,m} - Zwischen n und m mal wiederholen
+- {n;} - Mindestens n-mal wiederholen
 
 #### Konstante Zeichen:
 - Normale Buchstaben oder Symbole bleiben unverändert (z.B. "us", "mz", "QQ")
 
 ### Beispiele erklärt
 
-#### 1. `[A-Z][0-9]{2}`
+#### 1. [A-Z][0-9]{2}
 - Erzeugt: "A01", "B42", "Z99", "G27"
 
-#### 2. `Q[a-z]{3}[0-9]`
+#### 2. Q[a-z]{3}[0-9]
 - Erzeugt: "Qabc5", "Qxyz7", "Qdef9"
 
 #### 3. [A-Z]us[A-Z]t[0-9]mz[A-Z]{2}[0-9]{2}QQ
