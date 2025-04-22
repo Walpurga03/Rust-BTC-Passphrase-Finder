@@ -2,7 +2,8 @@ mod generate_address;
 mod find_passphrase;
 mod find_taproot_passphrase;
 mod config;
-mod passphrase_generater; // Importieren des neuen Moduls
+mod passphrase_generater;
+mod regex_parser;
 
 use find_passphrase::find_passphrase;
 use generate_address::generate_all_addresses;

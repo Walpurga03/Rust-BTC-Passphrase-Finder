@@ -1,29 +1,28 @@
-# Configuration file for the Bitcoin Passphrase Brute-Force Tool
+################################################################################
+# Bitcoin Passphrase Finder - Konfiguration
+################################################################################
 
-# Seed phrase used for generating the passphrase
-seed_phrase = "anger science wool gown ocean eagle sadness action smooth series goose elder"
+#------------------------------------------------------------------------------
+# WESENTLICHE PARAMETER
+#------------------------------------------------------------------------------
+# Seed-Phrase zur Generierung der Passphrase
+seed_phrase = "pigeon minor involve beef swift math verb cheese soldier wasp exile cluster"
 
-# Expected Bitcoin address that should match the generated passphrase
-expected_address = "bc1pmmkr7j7shetj4gd8vwhdps83xz7ktv7mtdw976tkltqa28nrzt4q8wdmcq"
+# Erwartete Bitcoin-Adresse, die zur generierten Passphrase passen sollte
+expected_address = "bc1pf35c0d0h9taja3s8snp74309z8fqwgsdptf4a28yq563kmmzd3tsswpqwz"
 
-# Path to the file where the generated passphrases will be saved
+# Anzahl der zu durchsuchenden Adresspfade (1, 2 oder 3)
+address_paths_to_search = 1
+
+#------------------------------------------------------------------------------
+# PASSPHRASEN-GENERIERUNG
+#------------------------------------------------------------------------------
+# Regex-Muster für die Passphrasen-Generierung (siehe docs/REGEX_PATTERNS.md für Details)
+# gesucht passphrase -> ODQSvC4j7UXH1N35
+passphrase = "ODQ[A-Z]vC[0-9]j7UX1N[0-9]{1,3}"
+
+# Pfad zur Datei, in der die generierten Passphrasen gespeichert werden
 wordlist_path = "wordlists/wordlist.txt"
 
-# Number of threads to be used for generation
+# Anzahl der für die Generierung zu verwendenden Threads
 num_threads = 4
-
-# Template for the passphrase with placeholders
-passphrase = "'upp1'QusLt3mzPDPn'dig1'QQ"
-
-# Characters to be used for the placeholders
-upp1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  # Uppercase letters ABCDEFGHIJKLMNOPQRSTUVWXYZ
-upp2 = "DEF"  # Uppercase letters ABCDEFGHIJKLMNOPQRSTUVWXYZ
-low1 = "abc"  # Lowercase letters abcdefghijklmnopqrstuvwxyz
-low2 = "abc"  # Lowercase letters abcdefghijklmnopqrstuvwxyz
-dig1 = "0123456789"  # Digits 0123456789
-dig2 = "789"  # Digits 0123456789
-spe1 = "!§$"  # Special characters +*#'<>^°!§$%&=?
-spe2 = "!§$"  # Special characters +*#'<>^°!§$%&=?
-
-# Number of address paths to search (1, 2, or 3)
-address_paths_to_search = 3

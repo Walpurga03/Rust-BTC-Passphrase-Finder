@@ -27,21 +27,34 @@ Das Programm unterstützt die folgenden fünf Bitcoin-Adressformate:
 5. **Taproot (P2TR)**: Adressen, die mit `bc1p` beginnen.
 
 ## Konfigurationsoptionen
-Die Konfigurationsdatei [`config.toml`](command:_github.copilot.openRelativePath?%5B%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2Fhome%2Flinux%2Fprojects%2Frust-btc-passphrase-finder%2Fconfig.toml%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%2200aeeb26-5c33-4a0d-a0da-e705caef91db%22%5D "/home/linux/projects/rust-btc-passphrase-finder/config.toml")) enthält die folgenden Optionen:
+Die Konfigurationsdatei `config.toml` enthält die folgenden Optionen:
 - `seed_phrase`: Die Seed-Phrase, die zur Generierung der Passphrase verwendet wird.
 - `expected_address`: Die erwartete Bitcoin-Adresse, die mit der generierten Passphrase übereinstimmen soll.
 - `wordlist_path`: Der Pfad zur Datei mit der Wortliste.
 - `num_threads`: Die Anzahl der Threads, die für die parallele Verarbeitung verwendet werden sollen.
-- `passphrase`: Das Template für die Passphrase mit Platzhaltern.
-- `uppercase`: Zeichen, die für den Platzhalter `uppercase` verwendet werden sollen.
-- `lowercase`: Zeichen, die für den Platzhalter `lowercase` verwendet werden sollen.
-- `digits`: Zeichen, die für den Platzhalter `digits` verwendet werden sollen.
-- `special`: Zeichen, die für den Platzhalter `special` verwendet werden sollen.
+- `passphrase`: Ein Regex-Pattern zur Generierung von Passphrasen. Beispiele:
+  - `[A-Z][0-9]{2}` - Ein Großbuchstabe gefolgt von zwei Ziffern
+  - `Q[a-z]{3}[0-9]` - Der Buchstabe Q gefolgt von drei Kleinbuchstaben und einer Ziffer
+  - `[A-Z]us[A-Z]t[0-9]mz[A-Z]{2}[0-9]{2}QQ` - Komplexes Muster
 - `address_paths_to_search`: Die Anzahl der zu durchsuchenden Adresspfade (1, 2 oder 3).
+
+## Tests ausführen
+Das Projekt enthält Unit-Tests für die Regex-Pattern-Verarbeitung und andere Komponenten. Um die Tests auszuführen:
+
+```bash
+# Alle Tests ausführen
+cargo test
+
+# Tests mit detaillierter Ausgabe
+cargo test -- --nocapture
+
+# Spezifische Tests ausführen (z.B. nur regex_parser Tests)
+cargo test regex_parser
+```
 
 ## Voraussetzungen
 - Linux
-- Rust-Umgebung
+- Rust-Umgebung (Version 1.70 oder höher)
 - Abhängigkeiten, die in der [`Cargo.toml`](command:_github.copilot.openRelativePath?%5B%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2Fhome%2Flinux%2Fprojects%2Frust-btc-passphrase-finder%2FCargo.toml%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%2200aeeb26-5c33-4a0d-a0da-e705caef91db%22%5D "/home/linux/projects/rust-btc-passphrase-finder/Cargo.toml")-Datei definiert sind
 
 ## Installation
